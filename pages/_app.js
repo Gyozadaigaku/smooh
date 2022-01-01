@@ -1,5 +1,8 @@
 import '../styles/globals.css'
+import initAuth from '../firebase/initAuth'
 import { ChakraProvider } from '@chakra-ui/react'
+
+initAuth()
 
 function MyApp({ Component, pageProps }) {
   return (
