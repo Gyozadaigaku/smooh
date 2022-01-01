@@ -2,6 +2,9 @@
 import { init } from 'next-firebase-auth'
 import absoluteUrl from 'next-absolute-url'
 
+// import fb from "firebase/app"
+// export const firebase = !fb.apps.length ? fb.initializeApp(firebaseConfig) : fb.app()
+
 const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000
 
 const initAuth = () => {

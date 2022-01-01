@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   useAuthUser,
   withAuthUser,
@@ -7,9 +8,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
+import DemoPageLinks from '../components/DemoPageLinks'
 
 
-export default function Home() {
+const Demo = () => {
   const AuthUser = useAuthUser()
   return (
     <div>
@@ -27,7 +29,12 @@ export default function Home() {
           </p>
           <a href="/todo" style={{ fontSize: "40px", textDecoration: 'underline' }}>Add a todo!</a>
         </div>
+        <DemoPageLinks />
       </div>
     </div>
   )
 }
+
+export const getServerSideProps = withAuthUserTokenSSR()()
+
+export default withAuthUser()(Demo)
