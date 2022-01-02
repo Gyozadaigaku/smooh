@@ -16,11 +16,8 @@ const initAuth = () => {
     // specify `authPageURL: '/auth-ssr'`.
     authPageURL: ({ ctx }) => {
       const isServerSide = typeof window === 'undefined'
-      const origin = isServerSide
-        ? absoluteUrl(ctx.req).origin
-        : window.location.origin
-      const destPath =
-        typeof window === 'undefined' ? ctx.resolvedUrl : window.location.href
+      const origin = isServerSide ? absoluteUrl(ctx.req).origin : window.location.origin
+      const destPath = typeof window === 'undefined' ? ctx.resolvedUrl : window.location.href
       const destURL = new URL(destPath, origin)
       return `auth-ssr?destination=${encodeURIComponent(destURL)}`
     },
@@ -30,15 +27,9 @@ const initAuth = () => {
     // specify `appPageURL: '/'`.
     appPageURL: ({ ctx }) => {
       const isServerSide = typeof window === 'undefined'
-      const origin = isServerSide
-        ? absoluteUrl(ctx.req).origin
-        : window.location.origin
-      const params = isServerSide
-        ? new URL(ctx.req.url, origin).searchParams
-        : new URLSearchParams(window.location.search)
-      const destinationParamVal = params.get('destination')
-        ? decodeURIComponent(params.get('destination'))
-        : undefined
+      const origin = isServerSide ? absoluteUrl(ctx.req).origin : window.location.origin
+      const params = isServerSide ? new URL(ctx.req.url, origin).searchParams : new URLSearchParams(window.location.search)
+      const destinationParamVal = params.get('destination') ? decodeURIComponent(params.get('destination')) : undefined
 
       // By default, go to the index page if the destination URL
       // is invalid or unspecified.
@@ -47,17 +38,12 @@ const initAuth = () => {
         // Verify the redirect URL host is allowed.
         // https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/11-Client_Side_Testing/04-Testing_for_Client_Side_URL_Redirect
         const allowedHosts = ['localhost:3000', 'nfa-example.vercel.app']
-        const allowed =
-          allowedHosts.indexOf(new URL(destinationParamVal).host) > -1
+        const allowed = allowedHosts.indexOf(new URL(destinationParamVal).host) > -1
         if (allowed) {
           destURL = destinationParamVal
         } else {
           // eslint-disable-next-line no-console
-          console.warn(
-            `Redirect destination host must be one of ${allowedHosts.join(
-              ', '
-            )}.`
-          )
+          console.warn(`Redirect destination host must be one of ${allowedHosts.join(', ')}.`)
         }
       }
       return destURL
@@ -71,9 +57,7 @@ const initAuth = () => {
         // Using JSON to handle newline problems when storing the
         // key as a secret in Vercel. See:
         // https://github.com/vercel/vercel/issues/749#issuecomment-707515089
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-          ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
-          : undefined,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY) : undefined,
       },
       databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     },
@@ -85,10 +69,7 @@ const initAuth = () => {
     },
     cookies: {
       name: 'ExampleApp',
-      keys: [
-        process.env.COOKIE_SECRET_CURRENT,
-        process.env.COOKIE_SECRET_PREVIOUS,
-      ],
+      keys: [process.env.COOKIE_SECRET_CURRENT, process.env.COOKIE_SECRET_PREVIOUS],
       httpOnly: true,
       maxAge: TWELVE_DAYS_IN_MS,
       overwrite: true,

@@ -16,15 +16,12 @@ const styles = {
   },
 }
 
-const Sidebar = props => {
+const Sidebar = (props) => {
   return (
     <>
-      <aside style={styles.container}>
-        Sidebar
-      </aside>
+      <aside style={styles.container}>Sidebar</aside>
     </>
   )
 }
-
 
 export default Sidebar

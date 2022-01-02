@@ -30,11 +30,7 @@ const Demo = () => {
     const data = await response.json()
     if (!response.ok) {
       // eslint-disable-next-line no-console
-      console.error(
-        `Data fetching failed with status ${response.status}: ${JSON.stringify(
-          data
-        )}`
-      )
+      console.error(`Data fetching failed with status ${response.status}: ${JSON.stringify(data)}`)
       return null
     }
     return data
@@ -64,10 +60,8 @@ const Demo = () => {
         <div style={styles.infoTextContainer}>
           <h3>Example: static + loader</h3>
           <p>
-            This page requires is static but requires authentication. Before the
-            Firebase client SDK initializes, it shows a loader. After
-            initializing, if the user is not authenticated, it client-side
-            redirects to the login page.
+            This page requires is static but requires authentication. Before the Firebase client SDK initializes, it shows a loader. After
+            initializing, if the user is not authenticated, it client-side redirects to the login page.
           </p>
           <p>Your favorite color is: {favoriteColor}</p>
         </div>

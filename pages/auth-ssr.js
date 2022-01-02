@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  withAuthUser,
-  withAuthUserTokenSSR,
-  AuthAction,
-} from 'next-firebase-auth'
+import { withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth'
 import FirebaseAuth from '../components/FirebaseAuth'
 
 const styles = {
@@ -22,8 +18,7 @@ const Auth = () => (
     <h3>Sign in</h3>
     <div style={styles.textContainer}>
       <p>
-        This auth page is <b>not</b> static. It will server-side redirect to the
-        app if the user is already authenticated.
+        This auth page is <b>not</b> static. It will server-side redirect to the app if the user is already authenticated.
       </p>
     </div>
     <div>

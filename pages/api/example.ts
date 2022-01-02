@@ -24,13 +24,7 @@ const handler = async (req, res) => {
       return res.status(403).json({ error: 'Not authorized' })
     }
 
-    const colors = [
-      'sea foam green',
-      'light purple',
-      'teal',
-      'taupe',
-      'dark grey',
-    ]
+    const colors = ['sea foam green', 'light purple', 'teal', 'taupe', 'dark grey']
     favoriteColor = colors[Math.floor(Math.random() * colors.length)]
   }
 
