@@ -6,6 +6,7 @@ import {
   InputLeftElement,
   Input,
   Button,
+  Box,
   Text,
   IconButton,
   Divider,
@@ -24,6 +25,7 @@ import getAbsoluteURL from '../firebase/getAbsoluteURL'
 import { AddIcon, DeleteIcon, StarIcon } from '@chakra-ui/icons'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import Sidebar from '../components/Sidebar'
 import TagList from '../components/TagList'
 
 const Todo = () => {
@@ -76,70 +78,72 @@ const Todo = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Flex flexDir="column" maxW={800} align="center" justify="start" minH="100vh" m="auto" px={4}>
-      <Flex justify="space-between" w="100%" align="center">
-        <Heading mb={4}>Welcome, {AuthUser.email}!</Heading>
-        <Flex>
-          <DarkModeSwitch />
-          <IconButton ml={2} onClick={AuthUser.signOut} icon={<StarIcon />} />
+    <Flex minH="100vh" m="auto" px={4}>
+      <Sidebar />
+      <Box w="calc(100% - 350px)" p={4}>
+        <Flex justify="space-between" w="100%" align="center">
+          <Heading mb={4}>Welcome, {AuthUser.email}!</Heading>
+          <Flex>
+            <DarkModeSwitch />
+            <IconButton ml={2} onClick={AuthUser.signOut} icon={<StarIcon />} />
+          </Flex>
         </Flex>
-      </Flex>
+
+        <Modal blockScrollOnMount={false} onClose={onClose} isOpen={isOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>New Task</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <AddIcon color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  type="text"
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key == 'Enter') {
+                      e.preventDefault()
+                      sendData()
+                    }
+                  }}
+                  placeholder="Search or Create"
+                  value={input}
+                />
+                <Button ml={2} onClick={() => sendData()}>
+                  Add Todo
+                </Button>
+              </InputGroup>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        {!todos.length ? (
+          <Spinner pos="fixed" top="50%" left="50%" translateX="-50%" translateY="-50%" size="xl" color="blue.500" />
+        ) : (
+          todos.map((t, i) => {
+            return (
+              <>
+                {i > 0 && <Divider />}
+                <Flex key={i} w="100%" p={5} my={2} align="center" borderRadius={5} justifyContent="space-between">
+                  <Flex align="center">
+                    <Text fontSize="xl" mr={4}>
+                      {i + 1}.
+                    </Text>
+                    <Text>{t}</Text>
+                  </Flex>
+                  <IconButton onClick={() => deleteTodo(t)} icon={<DeleteIcon />} />
+                </Flex>
+                <TagList />
+              </>
+            )
+          })
+        )}
+      </Box>
 
       <Button pos="fixed" bottom="8" right="8" colorScheme="blue" borderRadius="50%" size="lg" p={0} onClick={onOpen}>
         <AddIcon w={6} h={6} />
       </Button>
-
-      <Modal blockScrollOnMount={false} onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>New Task</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <AddIcon color="gray.300" />
-              </InputLeftElement>
-              <Input
-                type="text"
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key == 'Enter') {
-                    e.preventDefault()
-                    sendData()
-                  }
-                }}
-                placeholder="Search or Create"
-                value={input}
-              />
-              <Button ml={2} onClick={() => sendData()}>
-                Add Todo
-              </Button>
-            </InputGroup>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-
-      {!todos.length ? (
-        <Spinner pos="fixed" top="50%" left="50%" translateX="-50%" translateY="-50%" size="xl" color="blue.500" />
-      ) : (
-        todos.map((t, i) => {
-          return (
-            <>
-              {i > 0 && <Divider />}
-              <Flex key={i} w="100%" p={5} my={2} align="center" borderRadius={5} justifyContent="space-between">
-                <Flex align="center">
-                  <Text fontSize="xl" mr={4}>
-                    {i + 1}.
-                  </Text>
-                  <Text>{t}</Text>
-                </Flex>
-                <IconButton onClick={() => deleteTodo(t)} icon={<DeleteIcon />} />
-              </Flex>
-              <TagList />
-            </>
-          )
-        })
-      )}
     </Flex>
   )
 }
