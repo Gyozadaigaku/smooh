@@ -95,7 +95,9 @@ const Todo = () => {
           <ModalCloseButton />
           <ModalBody>
             <InputGroup>
-              <InputLeftElement pointerEvents="none" children={<AddIcon color="gray.300" />} />
+              <InputLeftElement pointerEvents="none">
+                <AddIcon color="gray.300" />
+              </InputLeftElement>
               <Input
                 type="text"
                 onChange={(e) => setInput(e.target.value)}

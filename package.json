@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prepare": "npx husky install"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.15",
@@ -29,6 +30,7 @@
     "@types/react": "^17.0.38",
     "eslint-config-next": "^11.1.0",
     "eslint-config-prettier": "^8.3.0",
+    "husky": "^6.0.0",
     "prettier": "^2.5.1",
     "typescript": "^4.5.4"
   }
