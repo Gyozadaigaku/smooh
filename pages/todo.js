@@ -89,7 +89,18 @@ const Todo = () => {
                     pointerEvents="none"
                     children={<AddIcon color="gray.300" />}
                 />
-                <Input type="text" onChange={(e) => setInput(e.target.value)} placeholder="Search or Create" value={input} />
+                <Input
+                    type="text"
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={(e) => {
+                        if (e.key == 'Enter') {
+                            e.preventDefault()
+                            sendData()
+                        }
+                    }}
+                    placeholder="Search or Create"
+                    value={input}
+                />
                 <Button
                     ml={2}
                     onClick={() => sendData()}
