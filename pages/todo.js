@@ -13,10 +13,10 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Spinner,
 } from '@chakra-ui/react'
 import DarkModeSwitch from '../components/DarkModeSwitch'
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth'
@@ -30,6 +30,7 @@ const Todo = () => {
   const AuthUser = useAuthUser()
   const [input, setInput] = useState('')
   const [todos, setTodos] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   // console.log(AuthUser)
   // console.log(todos)
@@ -75,7 +76,7 @@ const Todo = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Flex flexDir="column" maxW={800} align="center" justify="center" minH="100vh" m="auto" px={4}>
+    <Flex flexDir="column" maxW={800} align="center" justify="start" minH="100vh" m="auto" px={4}>
       <Flex justify="space-between" w="100%" align="center">
         <Heading mb={4}>Welcome, {AuthUser.email}!</Heading>
         <Flex>
@@ -118,23 +119,27 @@ const Todo = () => {
         </ModalContent>
       </Modal>
 
-      {todos.map((t, i) => {
-        return (
-          <>
-            {i > 0 && <Divider />}
-            <Flex key={i} w="100%" p={5} my={2} align="center" borderRadius={5} justifyContent="space-between">
-              <Flex align="center">
-                <Text fontSize="xl" mr={4}>
-                  {i + 1}.
-                </Text>
-                <Text>{t}</Text>
+      {!todos.length ? (
+        <Spinner pos="fixed" top="50%" left="50%" translateX="-50%" translateY="-50%" size="xl" color="blue.500" />
+      ) : (
+        todos.map((t, i) => {
+          return (
+            <>
+              {i > 0 && <Divider />}
+              <Flex key={i} w="100%" p={5} my={2} align="center" borderRadius={5} justifyContent="space-between">
+                <Flex align="center">
+                  <Text fontSize="xl" mr={4}>
+                    {i + 1}.
+                  </Text>
+                  <Text>{t}</Text>
+                </Flex>
+                <IconButton onClick={() => deleteTodo(t)} icon={<DeleteIcon />} />
               </Flex>
-              <IconButton onClick={() => deleteTodo(t)} icon={<DeleteIcon />} />
-            </Flex>
-            <TagList />
-          </>
-        )
-      })}
+              <TagList />
+            </>
+          )
+        })
+      )}
     </Flex>
   )
 }
