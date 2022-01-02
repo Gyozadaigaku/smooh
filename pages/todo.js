@@ -1,5 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Flex, Heading, InputGroup, InputLeftElement, Input, Button, Text, IconButton, Divider } from '@chakra-ui/react'
+import {
+  Flex,
+  Heading,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Button,
+  Text,
+  IconButton,
+  Divider,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from '@chakra-ui/react'
 import DarkModeSwitch from '../components/DarkModeSwitch'
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth'
 import getAbsoluteURL from '../firebase/getAbsoluteURL'
@@ -54,6 +72,8 @@ const Todo = () => {
     }
   }
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <Flex flexDir="column" maxW={800} align="center" justify="center" minH="100vh" m="auto" px={4}>
       <Flex justify="space-between" w="100%" align="center">
@@ -64,24 +84,37 @@ const Todo = () => {
         </Flex>
       </Flex>
 
-      <InputGroup>
-        <InputLeftElement pointerEvents="none" children={<AddIcon color="gray.300" />} />
-        <Input
-          type="text"
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key == 'Enter') {
-              e.preventDefault()
-              sendData()
-            }
-          }}
-          placeholder="Search or Create"
-          value={input}
-        />
-        <Button ml={2} onClick={() => sendData()}>
-          Add Todo
-        </Button>
-      </InputGroup>
+      <Button pos="fixed" bottom="8" right="8" colorScheme="blue" borderRadius="50%" size="lg" p={0} onClick={onOpen}>
+        <AddIcon w={6} h={6} />
+      </Button>
+
+      <Modal blockScrollOnMount={false} onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>New Task</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none" children={<AddIcon color="gray.300" />} />
+              <Input
+                type="text"
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key == 'Enter') {
+                    e.preventDefault()
+                    sendData()
+                  }
+                }}
+                placeholder="Search or Create"
+                value={input}
+              />
+              <Button ml={2} onClick={() => sendData()}>
+                Add Todo
+              </Button>
+            </InputGroup>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
       {todos.map((t, i) => {
         return (
