@@ -21,6 +21,7 @@ import getAbsoluteURL from '../firebase/getAbsoluteURL'
 import { AddIcon, DeleteIcon, StarIcon } from "@chakra-ui/icons"
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import TagList from '../components/TagList'
 
 const Todo = () => {
     const AuthUser = useAuthUser()
@@ -116,6 +117,7 @@ const Todo = () => {
                             </Flex>
                             <IconButton onClick={() => deleteTodo(t)} icon={<DeleteIcon />} />
                         </Flex>
+                        <TagList />
                     </>
                 )
             })}
