@@ -49,7 +49,7 @@ const Todo = () => {
         .onSnapshot((snapshot) => {
           setTodos(snapshot.docs.map((doc) => doc.data().todo))
         })
-  })
+  }, [input, AuthUser.id])
 
   const sendData = () => {
     try {
@@ -83,7 +83,7 @@ const Todo = () => {
 
   return (
     <Flex minH="100vh" m="auto">
-      <Sidebar />
+      <Sidebar input={input} />
       <Box flex="1" px={12} py={8} bg="gray.900">
         <Flex justify="space-between" w="100%" align="center">
           <Flex align="baseline">

@@ -5,9 +5,12 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { Box } from '@chakra-ui/react'
 
-const Calendar = () => {
+const Calendar = (props) => {
   const [weekendsVisible, setWeekendsVisible] = useState(true)
   const [currentEvents, setCurrentEvents] = useState([])
+
+  console.log('props.input')
+  console.log(props.input)
 
   /*
   Select dates and you will be prompted to create a new event
