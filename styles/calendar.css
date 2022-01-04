@@ -1,0 +1,50 @@
+.fc .fc-daygrid-day.fc-day-today {
+  /* color: #2b6cb0; */
+  color: var(--chakra-colors-pink-500);
+}
+
+.fc-theme-standard .fc-scrollgrid,
+.fc-scrollgrid-section th {
+  border: none !important;
+}
+
+.fc-daygrid-day {
+  border: 1px solid transparent !important;
+}
+
+.fc-day-today {
+  background-color: var(--chakra-colors-pink-900) !important;
+  border-radius: 6px;
+}
+
+.fc-scrollgrid-section td {
+  border-color: transparent !important;
+}
+
+.fc-prev-button,
+.fc-next-button {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.fc-prev-button:hover,
+.fc-today-button:hover,
+.fc-next-button:hover {
+  background-color: var(--fc-button-bg-color, #2c3e50) !important;
+  border-color: var(--fc-button-border-color, #2c3e50) !important;
+  opacity: 0.65 !important;
+}
+
+.fc-today-button {
+  border-radius: 6px !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.fc-prev-button,
+.fc-next-button {
+  width: 20px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}

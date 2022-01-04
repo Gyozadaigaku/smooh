@@ -5,17 +5,6 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { Box } from '@chakra-ui/react'
 
-// import { INITIAL_EVENTS, createEventId } from './event-utils'
-
-const styles = {
-  demoApp: {
-    // display: 'flex',
-    // justifyContent: 'flex-end',
-    // alignItems: 'center',
-    // padding: 16,
-  },
-}
-
 export default class DemoApp extends React.Component {
   state = {
     weekendsVisible: true,
@@ -24,32 +13,31 @@ export default class DemoApp extends React.Component {
 
   render() {
     return (
-      <Box w="284px">
-        <div className="demo-app-main">
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: 'prev,next today',
-              center: 'title',
-            }}
-            initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
+      <Box minW="300px" px={2} py={8}>
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: 'title',
+            center: '',
+            right: 'prev,today,next',
+          }}
+          initialView="dayGridMonth"
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          weekends={this.state.weekendsVisible}
+          // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+          select={this.handleDateSelect}
+          eventContent={renderEventContent} // custom render function
+          eventClick={this.handleEventClick}
+          eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
+          /* you can update a remote database when these fire:
             eventAdd={function(){}}
             eventChange={function(){}}
             eventRemove={function(){}}
             */
-          />
-        </div>
+        />
         {this.renderSidebar()}
       </Box>
     )

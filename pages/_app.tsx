@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/calendar.css'
 import initAuth from '../firebase/initAuth'
 import { ChakraProvider } from '@chakra-ui/react'
 

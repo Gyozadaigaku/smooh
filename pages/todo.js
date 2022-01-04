@@ -78,9 +78,9 @@ const Todo = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Flex minH="100vh" m="auto" px={4}>
+    <Flex minH="100vh" m="auto">
       <Sidebar />
-      <Box w="calc(100% - 350px)" p={4}>
+      <Box flex="1" p={8} bg="gray.900">
         <Flex justify="space-between" w="100%" align="center">
           <Heading mb={4}>Welcome, {AuthUser.email}!</Heading>
           <Flex>
