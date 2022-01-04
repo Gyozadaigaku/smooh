@@ -13,7 +13,7 @@ export default class DemoApp extends React.Component {
 
   render() {
     return (
-      <Box minW="300px" px={2} py={8}>
+      <Box minW="400px" px={2} py={8}>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
