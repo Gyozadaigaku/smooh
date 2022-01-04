@@ -79,6 +79,7 @@ const Todo = () => {
   }
 
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = React.useRef()
 
   return (
     <Flex minH="100vh" m="auto">
@@ -99,7 +100,7 @@ const Todo = () => {
           </Flex>
         </Flex>
 
-        <Modal blockScrollOnMount={false} onClose={onClose} isOpen={isOpen} isCentered>
+        <Modal initialFocusRef={initialRef} blockScrollOnMount={false} onClose={onClose} isOpen={isOpen} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>New Task</ModalHeader>
@@ -110,18 +111,26 @@ const Todo = () => {
                   <AddIcon color="gray.300" />
                 </InputLeftElement>
                 <Input
+                  ref={initialRef}
                   type="text"
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => {
                     if (e.key == 'Enter') {
                       e.preventDefault()
+                      onClose()
                       sendData()
                     }
                   }}
                   placeholder="Search or Create"
                   value={input}
                 />
-                <Button ml={2} onClick={() => sendData()}>
+                <Button
+                  ml={2}
+                  onClick={() => {
+                    onClose()
+                    sendData()
+                  }}
+                >
                   Add Todo
                 </Button>
               </InputGroup>
