@@ -18,11 +18,14 @@ import {
   ModalCloseButton,
   useDisclosure,
   Spinner,
+  Checkbox,
 } from '@chakra-ui/react'
 import DarkModeSwitch from '../components/DarkModeSwitch'
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth'
 import getAbsoluteURL from '../firebase/getAbsoluteURL'
-import { AddIcon, DeleteIcon, StarIcon } from '@chakra-ui/icons'
+import { AddIcon, MinusIcon } from '@chakra-ui/icons'
+import { BsInboxes } from 'react-icons/bs'
+import { MdOutlineLogout } from 'react-icons/md'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import Sidebar from '../components/Sidebar'
@@ -80,12 +83,19 @@ const Todo = () => {
   return (
     <Flex minH="100vh" m="auto">
       <Sidebar />
-      <Box flex="1" p={8} bg="gray.900">
+      <Box flex="1" px={12} py={8} bg="gray.900">
         <Flex justify="space-between" w="100%" align="center">
-          <Heading mb={4}>Welcome, {AuthUser.email}!</Heading>
+          <Flex align="baseline">
+            <Box color="blue.400">
+              <BsInboxes size={24} />
+            </Box>
+            <Heading pl={2} mb={4} size="lg">
+              Inbox
+            </Heading>
+          </Flex>
           <Flex>
             <DarkModeSwitch />
-            <IconButton ml={2} onClick={AuthUser.signOut} icon={<StarIcon />} />
+            <IconButton ml={2} onClick={AuthUser.signOut} icon={<MdOutlineLogout />} />
           </Flex>
         </Flex>
 
@@ -124,26 +134,42 @@ const Todo = () => {
           todos.map((t, i) => {
             return (
               <>
-                {i > 0 && <Divider />}
-                <Flex key={i} w="100%" p={5} my={2} align="center" borderRadius={5} justifyContent="space-between">
-                  <Flex align="center">
-                    <Text fontSize="xl" mr={4}>
-                      {i + 1}.
-                    </Text>
-                    <Text>{t}</Text>
-                  </Flex>
-                  <IconButton onClick={() => deleteTodo(t)} icon={<DeleteIcon />} />
+                {/* {i > 0 && <Divider />} */}
+                <Flex key={i} w="100%" pl={0} py={4} align="center" borderRadius={5} justifyContent="start">
+                  <IconButton
+                    // colorScheme='whiteAlpha'
+                    border="none"
+                    variant="outline"
+                    onClick={() => deleteTodo(t)}
+                    icon={<MinusIcon />}
+                  />
+                  <Box ml={4}>
+                    <Checkbox size="md" mb={1} colorScheme="blue">
+                      <Text>{t}</Text>
+                    </Checkbox>
+                    <TagList />
+                  </Box>
                 </Flex>
-                <TagList />
               </>
             )
           })
         )}
+        <IconButton
+          isFullWidth="true"
+          border="none"
+          variant="outline"
+          color="gray"
+          justifyContent="start"
+          pl={3}
+          mt={5}
+          icon={<AddIcon />}
+          onClick={onOpen}
+        />
       </Box>
 
-      <Button pos="fixed" bottom="8" right="8" colorScheme="blue" borderRadius="50%" size="lg" p={0} onClick={onOpen}>
+      <IconButton pos="fixed" bottom="8" right="8" colorScheme="blue" bg="blue.400" borderRadius="50%" size="lg" p={0} onClick={onOpen}>
         <AddIcon w={6} h={6} />
-      </Button>
+      </IconButton>
     </Flex>
   )
 }
