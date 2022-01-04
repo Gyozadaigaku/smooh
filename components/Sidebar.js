@@ -3,7 +3,18 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { Box } from '@chakra-ui/react'
+
 // import { INITIAL_EVENTS, createEventId } from './event-utils'
+
+const styles = {
+  demoApp: {
+    // display: 'flex',
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
+    // padding: 16,
+  },
+}
 
 export default class DemoApp extends React.Component {
   state = {
@@ -13,15 +24,13 @@ export default class DemoApp extends React.Component {
 
   render() {
     return (
-      <div className="demo-app">
-        {this.renderSidebar()}
+      <Box w="284px">
         <div className="demo-app-main">
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
               left: 'prev,next today',
               center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay',
             }}
             initialView="dayGridMonth"
             editable={true}
@@ -41,39 +50,25 @@ export default class DemoApp extends React.Component {
             */
           />
         </div>
-      </div>
+        {this.renderSidebar()}
+      </Box>
     )
   }
 
+  /*
+  Select dates and you will be prompted to create a new event
+  Drag, drop, and resize events
+  Click an event to delete it
+  */
   renderSidebar() {
     return (
       <div className="demo-app-sidebar">
-        <div className="demo-app-sidebar-section">
-          <h2>Instructions</h2>
-          <ul>
-            <li>Select dates and you will be prompted to create a new event</li>
-            <li>Drag, drop, and resize events</li>
-            <li>Click an event to delete it</li>
-          </ul>
-        </div>
-        <div className="demo-app-sidebar-section">
-          <label>
-            <input type="checkbox" checked={this.state.weekendsVisible} onChange={this.handleWeekendsToggle}></input>
-            toggle weekends
-          </label>
-        </div>
         <div className="demo-app-sidebar-section">
           <h2>All Events ({this.state.currentEvents.length})</h2>
           <ul>{this.state.currentEvents.map(renderSidebarEvent)}</ul>
         </div>
       </div>
     )
-  }
-
-  handleWeekendsToggle = () => {
-    this.setState({
-      weekendsVisible: !this.state.weekendsVisible,
-    })
   }
 
   handleDateSelect = (selectInfo) => {
