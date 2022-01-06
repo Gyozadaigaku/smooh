@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
+// import Sidebar from '../components/Sidebar'
 import DemoPageLinks from '../components/DemoPageLinks'
 import { Flex, Link } from '@chakra-ui/react'
 
@@ -14,7 +14,7 @@ const Demo = () => {
     <div>
       <Header email={AuthUser.email} signOut={AuthUser.signOut} />
       <Flex minH="100vh">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div>
           <div>
             <h3>Home</h3>

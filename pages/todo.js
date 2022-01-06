@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {
   Flex,
+  FormLabel,
+  Field,
   Heading,
+  HStack,
   InputGroup,
   InputLeftElement,
   Input,
@@ -19,6 +22,7 @@ import {
   useDisclosure,
   Spinner,
   Checkbox,
+  VStack,
 } from '@chakra-ui/react'
 import DarkModeSwitch from '../components/DarkModeSwitch'
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth'
@@ -34,6 +38,7 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { DatePicker } from '@orange_digital/chakra-datepicker'
 
 const Todo = () => {
   const AuthUser = useAuthUser()
@@ -186,34 +191,51 @@ const Todo = () => {
             <ModalHeader>New Task</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <AddIcon color="gray.300" />
-                </InputLeftElement>
-                <Input
-                  ref={initialRef}
-                  type="text"
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key == 'Enter') {
-                      e.preventDefault()
+              <VStack spacing={4}>
+                <InputGroup>
+                  <Input
+                    ref={initialRef}
+                    type="text"
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key == 'Enter') {
+                        e.preventDefault()
+                        onClose()
+                        sendData()
+                      }
+                    }}
+                    placeholder="Search or Create"
+                    value={input}
+                  />
+                </InputGroup>
+                <HStack>
+                  <Box>
+                    <FormLabel mb={1} htmlFor="start-date">
+                      start
+                    </FormLabel>
+                    <DatePicker initialValue={new Date()} />
+                  </Box>
+                  <Box>
+                    <FormLabel mb={1} htmlFor="end-date">
+                      end
+                    </FormLabel>
+                    <DatePicker initialValue={new Date()} />
+                  </Box>
+                </HStack>
+                <Box w="100%">
+                  <Button
+                    isFullWidth={true}
+                    mt={3}
+                    mb={4}
+                    onClick={() => {
                       onClose()
                       sendData()
-                    }
-                  }}
-                  placeholder="Search or Create"
-                  value={input}
-                />
-                <Button
-                  ml={2}
-                  onClick={() => {
-                    onClose()
-                    sendData()
-                  }}
-                >
-                  Add Todo
-                </Button>
-              </InputGroup>
+                    }}
+                  >
+                    Add Todo
+                  </Button>
+                </Box>
+              </VStack>
             </ModalBody>
           </ModalContent>
         </Modal>
