@@ -69,7 +69,7 @@ const Todo = () => {
       const api = calendarRef.current.getApi()
 
       api.addEvent({
-        title: 'test',
+        title: input,
         start: '2022-01-08',
         end: '2022-01-08',
       })
