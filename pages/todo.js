@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Flex,
   Heading,
@@ -28,17 +28,19 @@ import { BsInboxes } from 'react-icons/bs'
 import { MdOutlineLogout } from 'react-icons/md'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import Sidebar from '../components/Sidebar'
+// import Sidebar from '../components/Sidebar'
 import TagList from '../components/TagList'
+import FullCalendar, { formatDate } from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
 
 const Todo = () => {
   const AuthUser = useAuthUser()
   const [input, setInput] = useState('')
   const [todos, setTodos] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-
-  // console.log(AuthUser)
-  // console.log(todos)
+  const calendarRef = useRef(null)
 
   useEffect(() => {
     AuthUser.id &&
@@ -63,6 +65,15 @@ const Todo = () => {
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
         .then(console.log('Data was successfully sent to cloud firestore!'))
+
+      const api = calendarRef.current.getApi()
+
+      api.addEvent({
+        title: 'test',
+        start: '2022-01-08',
+        end: '2022-01-08',
+      })
+
       // clear form
       setInput('')
     } catch (error) {
@@ -81,9 +92,78 @@ const Todo = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef()
 
+  const [weekendsVisible, setWeekendsVisible] = useState(true)
+  const [currentEvents, setCurrentEvents] = useState([])
+
+  const handleDateSelect = (selectInfo) => {
+    let title = prompt('Please enter a new title for your event')
+    let calendarApi = selectInfo.view.calendar
+
+    calendarApi.unselect() // clear date selection
+
+    if (title) {
+      calendarApi.addEvent({
+        // id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
+      })
+    }
+  }
+
+  const handleEventClick = (clickInfo) => {
+    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+      clickInfo.event.remove()
+    }
+  }
+
+  const fullCalendar = (
+    <FullCalendar
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+      // events={[{ title: "Today", date: new Date() }]}
+      headerToolbar={{
+        left: 'title',
+        center: '',
+        right: 'prev,today,next',
+      }}
+      initialView="dayGridMonth"
+      editable={true}
+      selectable={true}
+      selectMirror={true}
+      dayMaxEvents={true}
+      weekends={weekendsVisible}
+      // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+      select={handleDateSelect}
+      eventContent={renderEventContent} // custom render function
+      eventClick={handleEventClick}
+      eventsSet={(e) => setCurrentEvents([{ title: 'Today', date: new Date() }])} // called after events are initialized/added/changed/removed
+      ref={calendarRef}
+      /* you can update a remote database when these fire:
+            eventAdd={(e) => setCurrentEvents([{ title: "Today", date: new Date() }])}
+            eventChange={function(){}}
+            eventRemove={function(){}}
+            */
+    />
+  )
+
+  /*
+  Select dates and you will be prompted to create a new event
+  Drag, drop, and resize events
+  Click an event to delete it
+  */
   return (
     <Flex minH="100vh" m="auto">
-      <Sidebar input={input} />
+      <Box minW="400px" px={2} py={8}>
+        {fullCalendar}
+        <div className="demo-app-sidebar">
+          <div className="demo-app-sidebar-section">
+            <h2>All Events ({currentEvents.length})</h2>
+            <ul>{currentEvents.map(renderSidebarEvent)}</ul>
+          </div>
+        </div>
+      </Box>
+
       <Box flex="1" px={12} py={8} bg="gray.900">
         <Flex justify="space-between" w="100%" align="center">
           <Flex align="baseline">
@@ -175,11 +255,28 @@ const Todo = () => {
           onClick={onOpen}
         />
       </Box>
-
       <IconButton pos="fixed" bottom="8" right="8" colorScheme="blue" bg="blue.400" borderRadius="50%" size="lg" p={0} onClick={onOpen}>
         <AddIcon w={6} h={6} />
       </IconButton>
     </Flex>
+  )
+}
+
+const renderEventContent = (eventInfo) => {
+  return (
+    <>
+      <b>{eventInfo.timeText}</b>
+      <i>{eventInfo.event.title}</i>
+    </>
+  )
+}
+
+const renderSidebarEvent = (event) => {
+  return (
+    <li key={event.id}>
+      <b>{formatDate(event.start, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
+      <i>{event.title}</i>
+    </li>
   )
 }
 
