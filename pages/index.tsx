@@ -1,36 +1,79 @@
 import React from 'react'
-import { useAuthUser, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Header from '../components/Header'
-// import Sidebar from '../components/Sidebar'
-import DemoPageLinks from '../components/DemoPageLinks'
-import { Flex, Link } from '@chakra-ui/react'
+import { useState } from 'react'
+import TodoList from '../components/TodoList'
+import TodoForm from '../components/TodoForm'
+import Sidebar from '../components/Sidebar'
+import ProfileMenu from '../components/ProfileMenu'
+import { TodoContext } from './TodoContext'
+import { IconButton, useDisclosure, Box, Flex, Heading } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
+import { useAuth } from '../Auth'
+import { verifyIdToken } from '../firebaseAdmin'
+import { collection, orderBy, query, getDocs } from '@firebase/firestore'
+import { db } from '../firebase'
+import nookies from 'nookies'
 
-const Demo = () => {
-  const AuthUser = useAuthUser()
+const Home = ({ todosProps }) => {
+  const { currentUser } = useAuth()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const [todo, setTodo] = useState({ title: '', startDate: new Date(), endDate: new Date() })
+
   return (
-    <div>
-      <Header email={AuthUser.email} signOut={AuthUser.signOut} />
-      <Flex minH="100vh">
-        {/* <Sidebar /> */}
-        <div>
-          <div>
-            <h3>Home</h3>
-            <p>This page does not require authentication, so it won&apos;t redirect to the login page if you are not signed in.</p>
-            <p>If you remove `getServerSideProps` from this page, it will be static and load the authed user only on the client side.</p>
-            <Link href="/todo" style={{ fontSize: '40px', textDecoration: 'underline' }}>
-              Add a todo!
-            </Link>
-          </div>
-          <DemoPageLinks />
-        </div>
+    <TodoContext.Provider value={{ todo, setTodo }}>
+      <Flex minH="100vh" m="auto">
+        <Flex direction="column" minW="400px" px={2} pt={8} pb={4}>
+          <Sidebar />
+          <ProfileMenu currentUser={currentUser} />
+        </Flex>
+        <Box flex={1} px={12} py={8} bg="gray.900">
+          <Heading>Inbox</Heading>
+          <TodoForm isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+          <TodoList todosProps={todosProps} handleToggleModal={onOpen} />
+          <IconButton
+            aria-label="Create task"
+            pos="fixed"
+            bottom={8}
+            right={8}
+            colorScheme="blue"
+            bg="blue.400"
+            borderRadius="50%"
+            size="lg"
+            p={0}
+            onClick={onOpen}
+          >
+            <AddIcon w={6} h={6} />
+          </IconButton>
+        </Box>
       </Flex>
-    </div>
+    </TodoContext.Provider>
   )
 }
 
-export const getServerSideProps = withAuthUserTokenSSR()()
+export default Home
 
-export default withAuthUser()(Demo)
+export async function getServerSideProps(context) {
+  try {
+    const cookies = nookies.get(context)
+    const token = await verifyIdToken(cookies.token)
+    const { email } = token
+    const collectionRef = collection(db, 'todos')
+    const q = query(
+      collectionRef,
+      // where("email", "==", currentUser?.email),
+      orderBy('timestamp', 'desc'),
+    )
+    const querySnapshot = await getDocs(q)
+    let todos = []
+    querySnapshot.forEach((doc) => {
+      todos.push({ ...doc.data(), id: doc.id, timestamp: doc.data().timestamp.toDate().getTime() })
+    })
+    return {
+      props: {
+        todosProps: JSON.stringify(todos) || [],
+      },
+    }
+  } catch (error) {
+    return { props: {} }
+  }
+}

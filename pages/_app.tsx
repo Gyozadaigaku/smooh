@@ -1,15 +1,20 @@
 import '../styles/globals.css'
 import '../styles/calendar.css'
-import initAuth from '../firebase/initAuth'
+import { AppProps } from 'next/app'
+// import initAuth from '../firebase/initAuth'
+import { AuthProvider } from '../Auth'
+// import { AuthProvider } from '../components/Auth'
 import { ChakraProvider } from '@chakra-ui/react'
 
-initAuth()
+// initAuth()
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <AuthProvider>
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </AuthProvider>
   )
 }
 
