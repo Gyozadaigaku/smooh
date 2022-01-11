@@ -1,28 +1,22 @@
-import { IconButton } from '@chakra-ui/react'
+import { IconButton, Grid } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { auth, provider } from '../firebase'
 import { signInWithPopup } from '@firebase/auth'
+import { Button, ChakraProvider } from '@chakra-ui/react'
+import { FaGoogle } from 'react-icons/fa'
 
 const Login = () => {
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider)
   }
   return (
-    <>
-      <IconButton
-        pos="fixed"
-        bottom={8}
-        right={8}
-        colorScheme="blue"
-        bg="blue.400"
-        borderRadius="50%"
-        size="lg"
-        p={0}
-        onClick={loginWithGoogle}
-      >
-        <AddIcon w={6} h={6} />
-      </IconButton>
-    </>
+    <ChakraProvider>
+      <Grid justifyContent="center" direction="column" alignItems="center" h="100vh">
+        <Button leftIcon={<FaGoogle />} colorScheme="blue" variant="solid" onClick={loginWithGoogle}>
+          I&apos;m back
+        </Button>
+      </Grid>
+    </ChakraProvider>
   )
 }
 
