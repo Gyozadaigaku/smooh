@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   Box,
+  Checkbox,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -25,7 +26,7 @@ const TodoForm = ({ isOpen, onClose }) => {
   const { todo, setTodo } = useContext(TodoContext)
   const initialRef = useRef()
   const handleClickOverlay = () => {
-    setTodo({ title: '', startDate: new Date(), endDate: new Date() })
+    setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
   }
 
   const onSubmit = async () => {
@@ -37,16 +38,37 @@ const TodoForm = ({ isOpen, onClose }) => {
         timestamp: serverTimestamp(),
       }
       updateDoc(docRef, todoUpdated)
-      setTodo({ title: '', startDate: new Date(), endDate: new Date() })
+      setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
+
+      // db.collection('todos')
+      //   .get()
+      //   //getしたデータに対し、
+      //   .then((snapshot) => {
+      //     //docsプロパティ(※)を指定しforEachで各データを取り出します。
+      //     snapshot.docs.forEach((doc) => {
+      //       const data = doc.data()
+      //       //準備しておいた配列に取り出したデータをpushします
+      //       posts.push({
+      //         ...todo,
+      //         timestamp: serverTimestamp(),
+      //       })
+      //     })
+      //     //ここはhooksなので気にしなくてOK
+      //     // setCurrentPost(posts)
+      //   })
     }
     // Create todo
     else {
       const collectionRef = collection(db, 'todos')
       const docRef = await addDoc(collectionRef, {
+        // id: collection(db, 'todos').doc().id,
         ...todo,
         timestamp: serverTimestamp(),
       })
-      setTodo({ title: '', startDate: new Date(), endDate: new Date() })
+      console.log('生成！！！')
+      console.log(todo)
+      console.log(docRef)
+      setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
     }
   }
 
@@ -67,6 +89,7 @@ const TodoForm = ({ isOpen, onClose }) => {
           {/* <pre>{JSON.stringify(todo)}</pre> */}
           <VStack spacing={4}>
             <InputGroup>
+              <Checkbox mr={4} isChecked={todo.isCompleted} onChange={(e) => setTodo({ ...todo, isCompleted: e.target.checked })} />
               <Input
                 ref={initialRef}
                 type="text"

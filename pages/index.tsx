@@ -17,7 +17,7 @@ const Home = ({ todosProps }) => {
   const { currentUser } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [todo, setTodo] = useState({ title: '', startDate: new Date(), endDate: new Date() })
+  const [todo, setTodo] = useState({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
 
   return (
     <TodoContext.Provider value={{ todo, setTodo }}>

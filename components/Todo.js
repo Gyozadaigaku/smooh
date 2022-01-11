@@ -6,7 +6,7 @@ import { db } from '../firebase'
 import { useContext } from 'react'
 import { TodoContext } from '../pages/TodoContext'
 
-const Todo = ({ id, title, startDate, endDate, timestamp, handleToggleModal }) => {
+const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleToggleModal }) => {
   const { setTodo } = useContext(TodoContext)
   const deleteTodo = async (id, e) => {
     e.stopPropagation()
@@ -18,7 +18,7 @@ const Todo = ({ id, title, startDate, endDate, timestamp, handleToggleModal }) =
     <>
       <Flex
         onClick={() => {
-          setTodo({ id, title, startDate, endDate, timestamp })
+          setTodo({ id, title, isCompleted, startDate, endDate, timestamp })
           handleToggleModal()
         }}
         key={id}
