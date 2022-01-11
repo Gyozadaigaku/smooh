@@ -65,9 +65,6 @@ const TodoForm = ({ isOpen, onClose }) => {
         ...todo,
         timestamp: serverTimestamp(),
       })
-      console.log('生成！！！')
-      console.log(todo)
-      console.log(docRef)
       setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
     }
   }
