@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { db } from '../firebase'
 import Todo from '../components/Todo'
 import { useAuth } from '../Auth'
+import dayjs from 'dayjs'
 
 const TodoList = ({ todosProps, handleToggleModal }) => {
   const [todos, setTodos] = useState([])
@@ -24,12 +25,15 @@ const TodoList = ({ todosProps, handleToggleModal }) => {
         querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
+          startDate: doc.data().startDate?.toDate().getTime(),
+          endDate: doc.data().endDate?.toDate().getTime(),
           timestamp: doc.data().timestamp?.toDate().getTime(),
         })),
       )
     })
     return unsubscribe
   }, [])
+
   return (
     <div>
       {todos.map((todo) => (
