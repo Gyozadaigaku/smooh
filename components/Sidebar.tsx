@@ -29,7 +29,7 @@ const Sidebar = () => {
     }
   }
 
-  const handleDateSelect = (selectInfo) => {
+  const handleDateSelect = (selectInfo: any) => {
     let title = prompt('Please enter a new title for your event')
     let calendarApi = selectInfo.view.calendar
 
@@ -46,7 +46,7 @@ const Sidebar = () => {
     }
   }
 
-  const handleEventClick = (clickInfo) => {
+  const handleEventClick = (clickInfo: any) => {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       clickInfo.event.remove()
     }
@@ -90,7 +90,7 @@ const Sidebar = () => {
   )
 }
 
-const renderEventContent = (eventInfo) => {
+const renderEventContent = (eventInfo: any) => {
   return (
     <>
       <b>{eventInfo.timeText}</b>
@@ -99,7 +99,7 @@ const renderEventContent = (eventInfo) => {
   )
 }
 
-const renderSidebarEvent = (event) => {
+const renderSidebarEvent = (event: any) => {
   return (
     <li key={event.id}>
       <b>{formatDate(event.start, { year: 'numeric', month: 'short', day: 'numeric' })}</b>

@@ -8,8 +8,10 @@ const DarkModeSwitch = () => {
     dark: 'white',
   }
   return (
+    // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <IconButton
       aria-label="Toggle dark mode"
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       icon={colorMode === 'dark' ? <SunIcon /> : <MoonIcon />}
       onClick={toggleColorMode}
       color={iconColor[colorMode]}

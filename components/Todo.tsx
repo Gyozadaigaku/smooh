@@ -6,9 +6,9 @@ import { TodoContext } from '../pages/TodoContext'
 import { useContext } from 'react'
 import moment from 'moment'
 
-const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleToggleModal }) => {
+const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleToggleModal }: any) => {
   const { setTodo } = useContext(TodoContext)
-  const deleteTodo = async (id, e) => {
+  const deleteTodo = async (id: any, e: any) => {
     e.stopPropagation()
     const docRef = doc(db, 'todos', id)
     await deleteDoc(docRef).then(console.log('Data was successfully deleted!'))

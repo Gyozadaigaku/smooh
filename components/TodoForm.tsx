@@ -21,7 +21,7 @@ import { TodoContext } from '../pages/TodoContext'
 import DatePicker from 'react-datepicker'
 import React, { useState, useEffect, useRef, useContext } from 'react'
 
-const TodoForm = ({ isOpen, onClose }) => {
+const TodoForm = ({ isOpen, onClose }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
   const initialRef = useRef()
   const handleClickOverlay = () => {
@@ -94,6 +94,7 @@ const TodoForm = ({ isOpen, onClose }) => {
                   if (e.key == 'Enter') {
                     e.preventDefault()
                     onClose()
+                    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'sendData'.
                     sendData()
                   }
                 }}
@@ -106,13 +107,13 @@ const TodoForm = ({ isOpen, onClose }) => {
                 <FormLabel mb={1} htmlFor="start-date">
                   start
                 </FormLabel>
-                <DatePicker selected={todo.startDate} onChange={(date) => setTodo({ ...todo, startDate: date })} />
+                <DatePicker selected={todo.startDate} onChange={(date: any) => setTodo({ ...todo, startDate: date })} />
               </Box>
               <Box>
                 <FormLabel mb={1} htmlFor="end-date">
                   end
                 </FormLabel>
-                <DatePicker selected={todo.endDate} onChange={(date) => setTodo({ ...todo, endDate: date })} />
+                <DatePicker selected={todo.endDate} onChange={(date: any) => setTodo({ ...todo, endDate: date })} />
               </Box>
             </HStack>
             <Box w="100%">

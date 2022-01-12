@@ -22,7 +22,7 @@ const styles = {
   },
 }
 
-const Header = ({ email, signOut }) => (
+const Header = ({ email, signOut }: any) => (
   <div style={styles.container}>
     <div style={styles.versionsContainer}>
       <div>v{nfaDependencyVersion}</div>

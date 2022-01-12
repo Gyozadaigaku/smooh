@@ -2,7 +2,7 @@ import { BellIcon } from '@chakra-ui/icons'
 import { Tag, TagLabel, TagLeftIcon, HStack } from '@chakra-ui/react'
 import React from 'react'
 
-const TagList = (props) => {
+const TagList = (props: any) => {
   return (
     <HStack spacing={4}>
       <Tag borderRadius="full" size="sm" key="1" variant="solid" colorScheme="gray">

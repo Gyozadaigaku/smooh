@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(6142) FIXME: Module '../firebase' was resolved to '/Users/inoue... Remove this comment to see the full error message
 import { auth, provider } from '../firebase'
 import { Button, ChakraProvider } from '@chakra-ui/react'
 import { FaGoogle } from 'react-icons/fa'

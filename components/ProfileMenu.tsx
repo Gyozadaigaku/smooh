@@ -2,7 +2,7 @@ import { auth } from '../firebase'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { Wrap, WrapItem, Avatar, IconButton, Flex, Text, Button } from '@chakra-ui/react'
 
-const ProfileMenu = ({ currentUser }) => {
+const ProfileMenu = ({ currentUser }: any) => {
   return (
     <Flex mt="auto" px={1} justifyContent="space-between" alignItems="center">
       <Wrap>
