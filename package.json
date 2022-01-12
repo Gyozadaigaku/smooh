@@ -19,6 +19,7 @@
     "@fullcalendar/interaction": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",
     "@fullcalendar/timegrid": "^5.10.1",
+    "@reduxjs/toolkit": "^1.7.1",
     "firebase": "^9.6.1",
     "firebase-admin": "^10.0.1",
     "firebase-functions": "^3.16.0",
@@ -33,12 +34,17 @@
     "react-datepicker": "^4.6.0",
     "react-dom": "17.0.2",
     "react-firebaseui": "^5.0.2",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^11.1.0",
     "@types/node": "^16.11.17",
     "@types/react": "^17.0.38",
+    "@types/react-redux": "^7.1.22",
+    "@types/redux-logger": "^3.0.9",
     "eslint-config-next": "^11.1.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^6.0.0",
