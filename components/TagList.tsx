@@ -1,6 +1,6 @@
-import React from 'react'
-import { Tag, TagLabel, TagLeftIcon, HStack } from '@chakra-ui/react'
 import { BellIcon } from '@chakra-ui/icons'
+import { Tag, TagLabel, TagLeftIcon, HStack } from '@chakra-ui/react'
+import React from 'react'
 
 const TagList = (props) => {
   return (

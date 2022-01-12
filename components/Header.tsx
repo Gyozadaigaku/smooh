@@ -1,5 +1,5 @@
-import React from 'react'
 import Link from 'next/link'
+import React from 'react'
 
 const nfaDependencyVersion = require('../package.json').dependencies['next-firebase-auth']
 const nextDependencyVersion = require('../package.json').dependencies.next

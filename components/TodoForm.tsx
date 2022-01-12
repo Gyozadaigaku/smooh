@@ -1,26 +1,25 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import 'react-datepicker/dist/react-datepicker.css'
 import {
+  Box,
+  Button,
+  Checkbox,
   FormLabel,
   HStack,
-  InputGroup,
   Input,
-  Button,
-  Box,
-  Checkbox,
+  InputGroup,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   VStack,
 } from '@chakra-ui/react'
-
 import { addDoc, collection, serverTimestamp, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { TodoContext } from '../pages/TodoContext'
+import DatePicker from 'react-datepicker'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 
 const TodoForm = ({ isOpen, onClose }) => {
   const { todo, setTodo } = useContext(TodoContext)

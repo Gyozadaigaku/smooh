@@ -1,9 +1,8 @@
-import { IconButton, Grid } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
 import { auth, provider } from '../firebase'
-import { signInWithPopup } from '@firebase/auth'
 import { Button, ChakraProvider } from '@chakra-ui/react'
 import { FaGoogle } from 'react-icons/fa'
+import { Grid } from '@chakra-ui/react'
+import { signInWithPopup } from '@firebase/auth'
 
 const Login = () => {
   const loginWithGoogle = () => {

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Box } from '@chakra-ui/react'
-
+// need to import @fullcalendar before attempting to import other plugins
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import React, { useState, useRef } from 'react'
+import timeGridPlugin from '@fullcalendar/timegrid'
 
 const Sidebar = () => {
   const [input, setInput] = useState('')

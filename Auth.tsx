@@ -1,8 +1,8 @@
+const AuthContext = createContext({})
 import { createContext, useState, useEffect, useContext } from 'react'
 import { getAuth } from 'firebase/auth'
-import Login from './components/Login'
 import Loading from './components/Loading'
-const AuthContext = createContext({})
+import Login from './components/Login'
 import nookies from 'nookies'
 
 export const AuthProvider = ({ children }) => {

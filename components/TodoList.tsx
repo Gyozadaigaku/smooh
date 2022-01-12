@@ -1,8 +1,8 @@
 import { collection, onSnapshot, orderBy, query, where } from '@firebase/firestore'
-import { useState, useEffect } from 'react'
 import { db } from '../firebase'
-import Todo from '../components/Todo'
 import { useAuth } from '../Auth'
+import { useState, useEffect } from 'react'
+import Todo from '../components/Todo'
 
 const TodoList = ({ todosProps, handleToggleModal }) => {
   const [todos, setTodos] = useState([])

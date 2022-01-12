@@ -1,10 +1,10 @@
+import { db } from '../firebase'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { Flex, Box, Text, IconButton, Checkbox } from '@chakra-ui/react'
 import { MinusIcon } from '@chakra-ui/icons'
-import moment from 'moment'
-import { deleteDoc, doc } from 'firebase/firestore'
-import { db } from '../firebase'
-import { useContext } from 'react'
 import { TodoContext } from '../pages/TodoContext'
+import { useContext } from 'react'
+import moment from 'moment'
 
 const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleToggleModal }) => {
   const { setTodo } = useContext(TodoContext)

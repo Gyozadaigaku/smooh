@@ -1,6 +1,6 @@
 import { auth } from '../firebase'
-import { Wrap, WrapItem, Avatar, IconButton, Flex, Text, Button } from '@chakra-ui/react'
 import { SettingsIcon } from '@chakra-ui/icons'
+import { Wrap, WrapItem, Avatar, IconButton, Flex, Text, Button } from '@chakra-ui/react'
 
 const ProfileMenu = ({ currentUser }) => {
   return (
