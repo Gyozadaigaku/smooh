@@ -13,7 +13,7 @@ import Sidebar from '../components/Sidebar'
 import TodoForm from '../components/TodoForm'
 import TodoList from '../components/TodoList'
 
-const Home = ({ todosProps }) => {
+const Home = ({ todosProps }: any) => {
   const { currentUser } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -52,7 +52,7 @@ const Home = ({ todosProps }) => {
 
 export default Home
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   try {
     const cookies = nookies.get(context)
     const token = await verifyIdToken(cookies.token)
@@ -64,7 +64,7 @@ export async function getServerSideProps(context) {
       orderBy('timestamp', 'desc'),
     )
     const querySnapshot = await getDocs(q)
-    let todos = []
+    let todos: any = []
     querySnapshot.forEach((doc) => {
       todos.push({ ...doc.data(), id: doc.id, timestamp: doc.data().timestamp.toDate().getTime() })
     })
