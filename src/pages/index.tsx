@@ -7,6 +7,7 @@ import { useAuth } from '../Auth'
 import { useState } from 'react'
 import { verifyIdToken } from '../firebaseAdmin'
 import nookies from 'nookies'
+import LeftNavList from '../components/LeftNavList'
 import ProfileMenu from '../components/ProfileMenu'
 import React from 'react'
 import Sidebar from '../components/Sidebar'
@@ -26,11 +27,12 @@ const Home = ({ todosProps }: any) => {
   return (
     <TodoContext.Provider value={{ todo, setTodo }}>
       <Flex minH="100vh" m="auto">
-        <Flex direction="column" minW="400px" px={2} pt={8} pb={4}>
+        <Flex direction="column" minW={372} w={372} px={2} pt={4} pb={4}>
           <Sidebar />
+          <LeftNavList />
           <ProfileMenu currentUser={currentUser} />
         </Flex>
-        <Box flex={1} px={12} py={8} bg="gray.900">
+        <Box flex={1} px={12} py={4} bg="gray.900">
           <Heading>Inbox</Heading>
           <TodoForm isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
           <TodoList todosProps={todosProps} handleToggleModal={onOpen} />

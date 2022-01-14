@@ -68,6 +68,7 @@ const Sidebar = () => {
         selectMirror={true}
         dayMaxEvents={true}
         weekends={weekendsVisible}
+        contentHeight={240}
         // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
         select={handleDateSelect}
         eventContent={renderEventContent} // custom render function
@@ -80,12 +81,12 @@ const Sidebar = () => {
             eventRemove={function(){}}
             */
       />
-      <div className="demo-app-sidebar">
+      {/* <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
           <h2>All Events ({currentEvents.length})</h2>
           <ul>{currentEvents.map(renderSidebarEvent)}</ul>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

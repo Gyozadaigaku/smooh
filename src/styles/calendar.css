@@ -52,3 +52,11 @@
 .fc-daygrid-day-top {
   justify-content: center;
 }
+
+.fc-scrollgrid {
+  font-size: 0.9em !important;
+}
+
+.fc-toolbar-chunk {
+  margin-left: 0.8em;
+}
