@@ -1,12 +1,12 @@
 import { db } from '../firebase'
 import { deleteDoc, doc } from 'firebase/firestore'
-import { Flex, Box, Text, IconButton, Checkbox } from '@chakra-ui/react'
+import { Flex, Box, Text, IconButton, Checkbox, HStack, Tag, TagLabel } from '@chakra-ui/react'
 import { MinusIcon } from '@chakra-ui/icons'
 import { TodoContext } from '../pages/TodoContext'
 import { useContext } from 'react'
 import moment from 'moment'
 
-const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleToggleModal }: any) => {
+const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, tags, handleToggleModal }: any) => {
   const { setTodo } = useContext(TodoContext)
   const deleteTodo = async (id: any, e: any) => {
     e.stopPropagation()
@@ -18,7 +18,7 @@ const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleTog
     <>
       <Flex
         onClick={() => {
-          setTodo({ id, title, isCompleted, startDate, endDate, timestamp })
+          setTodo({ id, title, isCompleted, startDate, endDate, tags, timestamp })
           handleToggleModal()
         }}
         key={id}
@@ -38,10 +38,18 @@ const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, handleTog
         />
         <Box ml={4}>
           <Checkbox size="md" mb={1} colorScheme="blue">
-            <Text>
+            <Text fontSize="lg" mb={1}>
               {title}
-              {moment(timestamp).format('MMMM do, yyyy')}
             </Text>
+            <HStack spacing={4}>
+              {tags.map((tag: string, id: number) => {
+                return (
+                  <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
+                    <TagLabel>{tag}</TagLabel>
+                  </Tag>
+                )
+              })}
+            </HStack>
           </Checkbox>
         </Box>
       </Flex>

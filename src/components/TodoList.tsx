@@ -7,6 +7,10 @@ import Todo from '../components/Todo'
 const TodoList = ({ todosProps, handleToggleModal }: any) => {
   const [todos, setTodos] = useState([])
   const { currentUser } = useAuth()
+
+  console.log('TodoList.tsx')
+  console.log('todos:', todos)
+
   useEffect(() => {
     setTodos(JSON.parse(todosProps))
   }, [todosProps])
@@ -43,6 +47,7 @@ const TodoList = ({ todosProps, handleToggleModal }: any) => {
           isCompleted={todo.isCompleted}
           startDate={todo.startDate}
           endDate={todo.endDate}
+          tags={todo.tags}
           timestamp={todo.timestamp}
           handleToggleModal={handleToggleModal}
         />
