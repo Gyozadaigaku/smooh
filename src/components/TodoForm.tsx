@@ -25,9 +25,9 @@ import {
   TagLabel,
   VStack,
 } from '@chakra-ui/react'
-import { addDoc, collection, serverTimestamp, doc, updateDoc } from 'firebase/firestore'
-import { SmallAddIcon } from '@chakra-ui/icons'
+import { addDoc, collection, serverTimestamp, doc, updateDoc, onSnapshot, orderBy, query, where } from '@firebase/firestore'
 import { db } from '../firebase'
+import { SmallAddIcon } from '@chakra-ui/icons'
 import { TodoContext } from '../pages/TodoContext'
 import DatePicker from 'react-datepicker'
 import React, { useState, useEffect, useRef, useContext } from 'react'
@@ -35,14 +35,35 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 const TodoForm = ({ isOpen, onClose }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
 
+  const [tags, setTags] = useState([])
+
   const initialRef = useRef()
   const handleClickOverlay = () => {
     setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
   }
 
+  useEffect(() => {
+    const collectionRef = collection(db, 'tags')
+    const q = query(
+      collectionRef,
+      // where("email", "==", currentUser?.email),
+      // orderBy('timestamp', 'desc'),
+    )
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      return setTags(
+        querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+        })),
+      )
+    })
+    return unsubscribe
+  }, [])
+
   console.log('TodoForm.tsx')
   console.log('todo:', todo)
   console.log('todo.tags:', todo.tags)
+  console.log('tags:', tags)
 
   const onSubmit = async () => {
     // Update todo
@@ -160,9 +181,13 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 <PopoverBody>
                   <CheckboxGroup colorScheme="blue" defaultValue={['work', 'home']}>
                     <Stack spacing={[1, 3]}>
-                      <Checkbox value="work">💼 Work</Checkbox>
-                      <Checkbox value="delegated">👉 Delegated</Checkbox>
-                      <Checkbox value="home">🏡 Home</Checkbox>
+                      {tags.map((tag, id) => {
+                        return (
+                          <Checkbox key={id} value={tag.name}>
+                            {tag.name}
+                          </Checkbox>
+                        )
+                      })}
                     </Stack>
                   </CheckboxGroup>
                 </PopoverBody>
