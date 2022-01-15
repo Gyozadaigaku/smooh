@@ -8,12 +8,12 @@ const TodoList = ({ todosProps, handleToggleModal }: any) => {
   const [todos, setTodos] = useState([])
   const { currentUser } = useAuth()
 
-  console.log('TodoList.tsx')
-  console.log('todos:', todos)
-
   useEffect(() => {
     setTodos(JSON.parse(todosProps))
   }, [todosProps])
+
+  console.log('TodoList.tsx')
+  console.log('todos:', todos)
 
   useEffect(() => {
     const collectionRef = collection(db, 'todos')

@@ -34,12 +34,15 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 
 const TodoForm = ({ isOpen, onClose }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
-  console.log('TodoForm.tsx')
-  console.log('todo:', todo)
+
   const initialRef = useRef()
   const handleClickOverlay = () => {
     setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
   }
+
+  console.log('TodoForm.tsx')
+  console.log('todo:', todo)
+  console.log('todo.tags:', todo.tags)
 
   const onSubmit = async () => {
     // Update todo
@@ -118,10 +121,20 @@ const TodoForm = ({ isOpen, onClose }: any) => {
 
             <Popover>
               <PopoverTrigger>
-                <Tag size="sm" key={1} borderRadius="full" variant="solid" colorScheme="gray">
-                  <SmallAddIcon />
-                  <TagLabel>Tags</TagLabel>
-                </Tag>
+                <HStack spacing={4}>
+                  <Tag size="sm" key={1} borderRadius="full" variant="solid" colorScheme="gray">
+                    <SmallAddIcon />
+                    <TagLabel>Tags</TagLabel>
+                  </Tag>
+                  {todo.tags &&
+                    todo.tags.map((tag: string, id: number) => {
+                      return (
+                        <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
+                          <TagLabel>{tag}</TagLabel>
+                        </Tag>
+                      )
+                    })}
+                </HStack>
               </PopoverTrigger>
               <PopoverContent>
                 <PopoverArrow />
@@ -155,6 +168,16 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 </PopoverBody>
               </PopoverContent>
             </Popover>
+            {/* <HStack spacing={4}>
+              {todo.tags &&
+                todo.tags.map((tag: string, id: number) => {
+                  return (
+                    <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
+                      <TagLabel>{tag}</TagLabel>
+                    </Tag>
+                  )
+                })}
+            </HStack> */}
             <HStack>
               <Box>
                 <FormLabel mb={1} htmlFor="start-date">
