@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CheckboxGroup,
   FormLabel,
   HStack,
   Input,
@@ -13,9 +14,19 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Stack,
+  Tag,
+  TagLabel,
   VStack,
 } from '@chakra-ui/react'
 import { addDoc, collection, serverTimestamp, doc, updateDoc } from 'firebase/firestore'
+import { SmallAddIcon } from '@chakra-ui/icons'
 import { db } from '../firebase'
 import { TodoContext } from '../pages/TodoContext'
 import DatePicker from 'react-datepicker'
@@ -23,6 +34,8 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 
 const TodoForm = ({ isOpen, onClose }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
+  console.log('TodoForm.tsx')
+  console.log('todo:', todo)
   const initialRef = useRef()
   const handleClickOverlay = () => {
     setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
@@ -83,7 +96,7 @@ const TodoForm = ({ isOpen, onClose }: any) => {
         <ModalCloseButton />
         <ModalBody>
           {/* <pre>{JSON.stringify(todo)}</pre> */}
-          <VStack spacing={4}>
+          <VStack spacing={4} alignItems="start">
             <InputGroup>
               <Checkbox mr={4} isChecked={todo.isCompleted} onChange={(e) => setTodo({ ...todo, isCompleted: e.target.checked })} />
               <Input
@@ -102,6 +115,46 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 value={todo.title}
               />
             </InputGroup>
+
+            <Popover>
+              <PopoverTrigger>
+                <Tag size="sm" key={1} borderRadius="full" variant="solid" colorScheme="gray">
+                  <SmallAddIcon />
+                  <TagLabel>Tags</TagLabel>
+                </Tag>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                {/* <PopoverCloseButton /> */}
+                <Button
+                  position="absolute"
+                  top={1}
+                  right={2}
+                  px={2}
+                  py={0}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  h={8}
+                  variant="ghost"
+                  colorScheme="whiteAlpha"
+                  boundary="clippingParents"
+                  onClick={onClose}
+                >
+                  Done
+                </Button>
+                <PopoverHeader>Tags</PopoverHeader>
+                <PopoverBody>
+                  <CheckboxGroup colorScheme="blue" defaultValue={['work', 'home']}>
+                    <Stack spacing={[1, 3]}>
+                      <Checkbox value="work">💼 Work</Checkbox>
+                      <Checkbox value="delegated">👉 Delegated</Checkbox>
+                      <Checkbox value="home">🏡 Home</Checkbox>
+                    </Stack>
+                  </CheckboxGroup>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
             <HStack>
               <Box>
                 <FormLabel mb={1} htmlFor="start-date">
