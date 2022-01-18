@@ -14,7 +14,6 @@ const TodoList = ({ todosProps, handleToggleModal }: any) => {
 
   console.log('TodoList.tsx')
   console.log('todos:', todos)
-  console.log(typeof todos)
 
   useEffect(() => {
     const collectionRef = collection(db, 'todos')

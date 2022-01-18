@@ -36,33 +36,31 @@ const TodoForm = ({ isOpen, onClose }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
 
   const [tags, setTags] = useState([])
-  // const [tagCheck, setTagCheck] = useCheckbox()
-  // console.log('tagCheck:', tagCheck)
+
+  console.log('TodoForm.tsx')
+  console.log('todo:', todo)
 
   const initialRef = useRef()
   const handleClickOverlay = () => {
     setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date(), tags: [] })
   }
 
-  const handleChangeTagCheck = (e) => {
-    console.log('todo:', todo)
-    console.log('event.target:', e.target)
-    console.log('event:', e.target.value)
-    console.log('event:', e.target.checked)
-    console.log('...todo', { ...todo })
-    setTodo((todo) => ({
+  const handleTagCheck = (e) => {
+    setTodo({
       ...todo,
-      tags: [{ name: e.target.value, isChecked: e.target.checked }],
-    }))
-    // setTodo({ ...todo, isCompleted: e.target.checked })
-    // setTodo({ ...todo, tags: e.target })
-    // setTodo({ ...todo, tags: e.target.value })
-    // setTodo({
-    //   ...todo, tags.map(tag => {
-    //     tag: tag.name
+      tags: [...todo.tags, { name: e.target.value, isChecked: e.target.checked }],
+    })
+  }
 
-    // }) })
-    console.log('todo:', todo)
+  const handleTagUncheck = (index, e) => {
+    const newTags = [...todo.tags]
+    newTags.map((newTag, i) => {
+      if (newTag.name === e.target.value) {
+        newTags.splice(i, 1)
+        return
+      }
+    })
+    setTodo({ ...todo, tags: newTags })
   }
 
   useEffect(() => {
@@ -82,11 +80,6 @@ const TodoForm = ({ isOpen, onClose }: any) => {
     })
     return unsubscribe
   }, [])
-
-  console.log('TodoForm.tsx')
-  console.log('todo:', todo)
-  console.log('todo.tags:', todo.tags)
-  console.log('tags:', tags)
 
   const onSubmit = async () => {
     // Update todo
@@ -112,6 +105,7 @@ const TodoForm = ({ isOpen, onClose }: any) => {
   }
 
   return (
+    // input form
     <Modal
       onOverlayClick={handleClickOverlay}
       initialFocusRef={initialRef}
@@ -148,7 +142,7 @@ const TodoForm = ({ isOpen, onClose }: any) => {
             <Popover>
               <PopoverTrigger>
                 <HStack spacing={4}>
-                  <Tag size="sm" key={0} borderRadius="full" variant="solid" colorScheme="gray">
+                  <Tag size="sm" key={-1} borderRadius="full" variant="solid" colorScheme="gray">
                     <SmallAddIcon />
                     <TagLabel>Tags</TagLabel>
                   </Tag>
@@ -201,12 +195,9 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                           <Checkbox
                             key={id}
                             value={tag.name}
-                            onChange={(e) =>
-                              setTodo({
-                                ...todo,
-                                tags: [...todo.tags, { name: e.target.value, isChecked: e.target.checked }],
-                              })
-                            }
+                            onChange={(e) => {
+                              e.target.checked ? handleTagCheck(e) : handleTagUncheck(id, e)
+                            }}
                           >
                             {tag.name}
                           </Checkbox>
