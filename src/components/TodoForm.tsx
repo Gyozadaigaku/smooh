@@ -40,7 +40,6 @@ const TodoForm = ({ isOpen, onClose }: any) => {
   console.log('TodoForm.tsx')
   console.log('todo:', todo)
 
-  const initialRef = useRef()
   const handleClickOverlay = () => {
     setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date(), tags: [] })
   }
@@ -104,16 +103,17 @@ const TodoForm = ({ isOpen, onClose }: any) => {
     }
   }
 
+  const focusInputField = (input) => {
+    if (input) {
+      setTimeout(() => {
+        input.focus()
+      }, 100)
+    }
+  }
+
   return (
     // input form
-    <Modal
-      onOverlayClick={handleClickOverlay}
-      initialFocusRef={initialRef}
-      blockScrollOnMount={false}
-      onClose={onClose}
-      isOpen={isOpen}
-      isCentered
-    >
+    <Modal onOverlayClick={handleClickOverlay} blockScrollOnMount={false} onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>New Task</ModalHeader>
@@ -124,7 +124,6 @@ const TodoForm = ({ isOpen, onClose }: any) => {
             <InputGroup>
               <Checkbox mr={4} isChecked={todo.isCompleted} onChange={(e) => setTodo({ ...todo, isCompleted: e.target.checked })} />
               <Input
-                ref={initialRef}
                 type="text"
                 onChange={(e) => setTodo({ ...todo, title: e.target.value })}
                 onKeyPress={(e) => {
@@ -136,6 +135,8 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 }}
                 placeholder="Search or Create"
                 value={todo.title}
+                variant="unstyled"
+                ref={focusInputField}
               />
             </InputGroup>
 
