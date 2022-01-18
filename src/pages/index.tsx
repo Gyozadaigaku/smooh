@@ -38,6 +38,18 @@ const Home = ({ todosProps }: any) => {
           <TodoList todosProps={todosProps} handleToggleModal={onOpen} />
           <IconButton
             aria-label="Create task"
+            isFullWidth="true"
+            border="none"
+            variant="outline"
+            color="gray"
+            justifyContent="start"
+            pl={3}
+            mt={5}
+            icon={<AddIcon />}
+            onClick={onOpen}
+          />
+          <IconButton
+            aria-label="Create task"
             pos="fixed"
             bottom={8}
             right={8}

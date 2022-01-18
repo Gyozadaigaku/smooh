@@ -28,6 +28,10 @@ const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, tags, han
         align="center"
         borderRadius={5}
         justifyContent="start"
+        cursor="pointer"
+        _hover={{
+          background: 'gray.800',
+        }}
       >
         <IconButton
           // colorScheme='whiteAlpha'
