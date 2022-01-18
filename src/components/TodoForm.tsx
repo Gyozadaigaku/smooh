@@ -142,7 +142,7 @@ const TodoForm = ({ isOpen, onClose }: any) => {
             <Popover>
               <PopoverTrigger>
                 <HStack spacing={4}>
-                  <Tag size="sm" key={-1} borderRadius="full" variant="solid" colorScheme="gray">
+                  <Tag size="sm" key={-1} borderRadius="full" variant="solid" colorScheme="gray" cursor="pointer">
                     <SmallAddIcon />
                     <TagLabel>Tags</TagLabel>
                   </Tag>
@@ -150,7 +150,7 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                   {todo.tags &&
                     todo.tags.map((tag: string, id: number) => {
                       return (
-                        <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
+                        <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue" cursor="pointer">
                           <TagLabel>{tag.name}</TagLabel>
                         </Tag>
                       )
