@@ -42,13 +42,14 @@ const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, tags, han
               {title}
             </Text>
             <HStack spacing={4}>
-              {tags.map((tag: string, id: number) => {
-                return (
-                  <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
-                    <TagLabel>{tag}</TagLabel>
-                  </Tag>
-                )
-              })}
+              {tags &&
+                tags.map((tag: string, id: number) => {
+                  return (
+                    <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
+                      <TagLabel>{tag.name}</TagLabel>
+                    </Tag>
+                  )
+                })}
             </HStack>
           </Checkbox>
         </Box>

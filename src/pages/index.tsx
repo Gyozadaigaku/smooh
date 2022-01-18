@@ -18,7 +18,7 @@ const Home = ({ todosProps }: any) => {
   const { currentUser } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [todo, setTodo] = useState([])
+  const [todo, setTodo] = useState({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date(), tags: [] })
 
   console.log('index.tsx')
   console.log('todosProps:', todosProps)

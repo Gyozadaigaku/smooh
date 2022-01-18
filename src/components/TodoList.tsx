@@ -14,6 +14,7 @@ const TodoList = ({ todosProps, handleToggleModal }: any) => {
 
   console.log('TodoList.tsx')
   console.log('todos:', todos)
+  console.log(typeof todos)
 
   useEffect(() => {
     const collectionRef = collection(db, 'todos')
@@ -30,6 +31,7 @@ const TodoList = ({ todosProps, handleToggleModal }: any) => {
           id: doc.id,
           startDate: doc.data().startDate?.toDate(),
           endDate: doc.data().endDate?.toDate(),
+          tags: doc.data().tags,
           timestamp: doc.data().timestamp?.toDate().getTime(),
         })),
       )

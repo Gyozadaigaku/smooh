@@ -36,10 +36,33 @@ const TodoForm = ({ isOpen, onClose }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
 
   const [tags, setTags] = useState([])
+  // const [tagCheck, setTagCheck] = useCheckbox()
+  // console.log('tagCheck:', tagCheck)
 
   const initialRef = useRef()
   const handleClickOverlay = () => {
-    setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
+    setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date(), tags: [] })
+  }
+
+  const handleChangeTagCheck = (e) => {
+    console.log('todo:', todo)
+    console.log('event.target:', e.target)
+    console.log('event:', e.target.value)
+    console.log('event:', e.target.checked)
+    console.log('...todo', { ...todo })
+    setTodo((todo) => ({
+      ...todo,
+      tags: [{ name: e.target.value, isChecked: e.target.checked }],
+    }))
+    // setTodo({ ...todo, isCompleted: e.target.checked })
+    // setTodo({ ...todo, tags: e.target })
+    // setTodo({ ...todo, tags: e.target.value })
+    // setTodo({
+    //   ...todo, tags.map(tag => {
+    //     tag: tag.name
+
+    // }) })
+    console.log('todo:', todo)
   }
 
   useEffect(() => {
@@ -75,23 +98,6 @@ const TodoForm = ({ isOpen, onClose }: any) => {
       }
       updateDoc(docRef, todoUpdated)
       setTodo({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date() })
-
-      // db.collection('todos')
-      //   .get()
-      //   //getしたデータに対し、
-      //   .then((snapshot) => {
-      //     //docsプロパティ(※)を指定しforEachで各データを取り出します。
-      //     snapshot.docs.forEach((doc) => {
-      //       const data = doc.data()
-      //       //準備しておいた配列に取り出したデータをpushします
-      //       posts.push({
-      //         ...todo,
-      //         timestamp: serverTimestamp(),
-      //       })
-      //     })
-      //     //ここはhooksなので気にしなくてOK
-      //     // setCurrentPost(posts)
-      //   })
     }
     // Create todo
     else {
@@ -131,7 +137,6 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                   if (e.key == 'Enter') {
                     e.preventDefault()
                     onClose()
-                    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'sendData'.
                     sendData()
                   }
                 }}
@@ -143,15 +148,16 @@ const TodoForm = ({ isOpen, onClose }: any) => {
             <Popover>
               <PopoverTrigger>
                 <HStack spacing={4}>
-                  <Tag size="sm" key={1} borderRadius="full" variant="solid" colorScheme="gray">
+                  <Tag size="sm" key={0} borderRadius="full" variant="solid" colorScheme="gray">
                     <SmallAddIcon />
                     <TagLabel>Tags</TagLabel>
                   </Tag>
+                  {/* horizontal tags */}
                   {todo.tags &&
                     todo.tags.map((tag: string, id: number) => {
                       return (
                         <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
-                          <TagLabel>{tag}</TagLabel>
+                          <TagLabel>{tag.name}</TagLabel>
                         </Tag>
                       )
                     })}
@@ -161,29 +167,47 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 <PopoverArrow />
                 {/* <PopoverCloseButton /> */}
                 <Button
+                  alignItems="center"
+                  boundary="clippingParents"
+                  colorScheme="whiteAlpha"
+                  display="flex"
+                  h={8}
+                  justifyContent="center"
+                  onClick={onClose}
                   position="absolute"
-                  top={1}
-                  right={2}
                   px={2}
                   py={0}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  h={8}
+                  right={2}
+                  top={1}
                   variant="ghost"
-                  colorScheme="whiteAlpha"
-                  boundary="clippingParents"
-                  onClick={onClose}
                 >
                   Done
                 </Button>
                 <PopoverHeader>Tags</PopoverHeader>
                 <PopoverBody>
-                  <CheckboxGroup colorScheme="blue" defaultValue={['work', 'home']}>
+                  <CheckboxGroup
+                    colorScheme="blue"
+                    defaultValue={
+                      todo.tags &&
+                      todo.tags.map((tag: string, id: number) => {
+                        return tag.name
+                      })
+                    }
+                  >
                     <Stack spacing={[1, 3]}>
+                      {/* vertical tags */}
                       {tags.map((tag, id) => {
                         return (
-                          <Checkbox key={id} value={tag.name}>
+                          <Checkbox
+                            key={id}
+                            value={tag.name}
+                            onChange={(e) =>
+                              setTodo({
+                                ...todo,
+                                tags: [...todo.tags, { name: e.target.value, isChecked: e.target.checked }],
+                              })
+                            }
+                          >
                             {tag.name}
                           </Checkbox>
                         )
@@ -193,16 +217,6 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 </PopoverBody>
               </PopoverContent>
             </Popover>
-            {/* <HStack spacing={4}>
-              {todo.tags &&
-                todo.tags.map((tag: string, id: number) => {
-                  return (
-                    <Tag key={id} borderRadius="full" size="sm" variant="solid" colorScheme="blue">
-                      <TagLabel>{tag}</TagLabel>
-                    </Tag>
-                  )
-                })}
-            </HStack> */}
             <HStack>
               <Box>
                 <FormLabel mb={1} htmlFor="start-date">
