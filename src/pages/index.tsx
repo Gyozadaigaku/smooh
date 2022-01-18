@@ -16,7 +16,8 @@ import TodoList from '../components/TodoList'
 
 const Home = ({ todosProps }: any) => {
   const { currentUser } = useAuth()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onToggle } = useDisclosure()
 
   const [todo, setTodo] = useState({ title: '', isCompleted: false, startDate: new Date(), endDate: new Date(), tags: [] })
 
@@ -34,8 +35,8 @@ const Home = ({ todosProps }: any) => {
         </Flex>
         <Box flex={1} px={12} py={4} bg="gray.900">
           <Heading>Inbox</Heading>
-          <TodoForm isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
-          <TodoList todosProps={todosProps} handleToggleModal={onOpen} />
+          <TodoList todosProps={todosProps} onToggle={onToggle} />
+          <TodoForm isOpen={isOpen} onToggle={onToggle} />
           <IconButton
             aria-label="Create task"
             pos="fixed"
@@ -46,7 +47,7 @@ const Home = ({ todosProps }: any) => {
             borderRadius="50%"
             size="lg"
             p={0}
-            onClick={onOpen}
+            onClick={onToggle}
           >
             <AddIcon w={6} h={6} />
           </IconButton>

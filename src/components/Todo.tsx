@@ -6,7 +6,7 @@ import { TodoContext } from '../pages/TodoContext'
 import { useContext } from 'react'
 import moment from 'moment'
 
-const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, tags, handleToggleModal }: any) => {
+const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, tags, onToggle }: any) => {
   const { setTodo } = useContext(TodoContext)
   const deleteTodo = async (id: any, e: any) => {
     e.stopPropagation()
@@ -19,7 +19,7 @@ const Todo = ({ id, title, isCompleted, startDate, endDate, timestamp, tags, han
       <Flex
         onClick={() => {
           setTodo({ id, title, isCompleted, startDate, endDate, tags, timestamp })
-          handleToggleModal()
+          onToggle()
         }}
         key={id}
         w="100%"

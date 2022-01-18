@@ -8,18 +8,13 @@ import {
   HStack,
   Input,
   InputGroup,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  SlideFade,
   Stack,
   Tag,
   TagLabel,
@@ -32,7 +27,7 @@ import { TodoContext } from '../pages/TodoContext'
 import DatePicker from 'react-datepicker'
 import React, { useState, useEffect, useRef, useContext } from 'react'
 
-const TodoForm = ({ isOpen, onClose }: any) => {
+const TodoForm = ({ isOpen, onToggle }: any) => {
   const { todo, setTodo } = useContext(TodoContext)
 
   const [tags, setTags] = useState([])
@@ -104,27 +99,25 @@ const TodoForm = ({ isOpen, onClose }: any) => {
     }
   }
 
+  const focusInputField = (input) => {
+    if (input) {
+      setTimeout(() => {
+        input.focus()
+      }, 100)
+    }
+  }
+
   return (
     // input form
-    <Modal
-      onOverlayClick={handleClickOverlay}
-      initialFocusRef={initialRef}
-      blockScrollOnMount={false}
-      onClose={onClose}
-      isOpen={isOpen}
-      isCentered
-    >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>New Task</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
+    <>
+      <SlideFade in={isOpen} offsetY="20px">
+        <Box p="40px" color="white" mt="4" bg="gray.800" rounded="md" shadow="md">
           {/* <pre>{JSON.stringify(todo)}</pre> */}
           <VStack spacing={4} alignItems="start">
             <InputGroup>
               <Checkbox mr={4} isChecked={todo.isCompleted} onChange={(e) => setTodo({ ...todo, isCompleted: e.target.checked })} />
               <Input
-                ref={initialRef}
+                // ref={initialRef}
                 type="text"
                 onChange={(e) => setTodo({ ...todo, title: e.target.value })}
                 onKeyPress={(e) => {
@@ -136,6 +129,8 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                 }}
                 placeholder="Search or Create"
                 value={todo.title}
+                variant="unstyled"
+                ref={focusInputField}
               />
             </InputGroup>
 
@@ -167,7 +162,7 @@ const TodoForm = ({ isOpen, onClose }: any) => {
                   display="flex"
                   h={8}
                   justifyContent="center"
-                  onClick={onClose}
+                  // onClick={onClose}
                   position="absolute"
                   px={2}
                   py={0}
@@ -235,9 +230,12 @@ const TodoForm = ({ isOpen, onClose }: any) => {
               </Button>
             </Box>
           </VStack>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </Box>
+      </SlideFade>
+      <Button blockScrollOnMount={false} onClick={onToggle} isOpen={isOpen} isCentered>
+        Click Me
+      </Button>
+    </>
   )
 }
 

@@ -4,7 +4,7 @@ import { useAuth } from '../Auth'
 import { useState, useEffect } from 'react'
 import Todo from '../components/Todo'
 
-const TodoList = ({ todosProps, handleToggleModal }: any) => {
+const TodoList = ({ todosProps, onToggle }: any) => {
   const [todos, setTodos] = useState([])
   const { currentUser } = useAuth()
 
@@ -50,7 +50,7 @@ const TodoList = ({ todosProps, handleToggleModal }: any) => {
           endDate={todo.endDate}
           tags={todo.tags}
           timestamp={todo.timestamp}
-          handleToggleModal={handleToggleModal}
+          onToggle={onToggle}
         />
       ))}
     </div>
