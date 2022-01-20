@@ -1,4 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons'
+import { CgTag } from 'react-icons/cg'
 import { collection, orderBy, query, getDocs } from '@firebase/firestore'
 import { db } from '../firebase'
 import { IconButton, useDisclosure, Box, Flex, Heading } from '@chakra-ui/react'
@@ -11,6 +12,7 @@ import LeftNavList from '../components/LeftNavList'
 import ProfileMenu from '../components/ProfileMenu'
 import React from 'react'
 import Sidebar from '../components/Sidebar'
+import Title from '../components/Title'
 import TodoForm from '../components/TodoForm'
 import TodoList from '../components/TodoList'
 
@@ -33,7 +35,7 @@ const Tags = ({ todosProps }: any) => {
           <ProfileMenu currentUser={currentUser} />
         </Flex>
         <Box flex={1} px={12} py={4} bg="gray.900">
-          <Heading>Tags</Heading>
+          <Title icon={CgTag} title="Tags" color="green.500" />
           <TodoForm isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
           <TodoList todosProps={todosProps} handleToggleModal={onOpen} />
           <IconButton
